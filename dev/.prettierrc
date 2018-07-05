@@ -1,0 +1,6 @@
+{
+    "tabWidth": 4,
+    "bracketSpacing": true,
+    "semi": true,
+    "avoid": "avoid"
+}
