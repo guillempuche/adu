@@ -2,4 +2,4 @@ node_modules
 dev.js
 
 # dev is the development folder
-dev/vscode
+dev

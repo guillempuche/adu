@@ -4,7 +4,7 @@ const _ = require("lodash");
 const keys = require("../config/keys");
 const mongoose = require("mongoose");
 const passport = require("passport");
-var GoogleStrategy = require("passport-google-oauth20").Strategy;
+var GoogleStrategy = require("passport-google-oauth20/lib").Strategy;
 
 const User = mongoose.model("users");
 
@@ -19,7 +19,6 @@ passport.serializeUser((user, done) => {
  * User model instance is added to req object as 'req.user'
  * id === user.id from serializeUser()
  */
-
 passport.deserializeUser((id, done) => {
     User.findById(id).then(user => {
         done(null, user);
@@ -40,23 +39,23 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             // Check if user's Google id exists. We don't check e-mail or similars things because
             // the user's Google account variables can change overtime, except for user's id.
-            const user = await User.findOne({ auth: { googleId: profile.id } });
+            var user = await User.findOne({ auth: { googleId: profile.id } });
 
             if (user) {
                 return done(null, user); // null === no errors
             }
 
-            // Filter the string ie: https://lh3.googleusercontent.com/.../photo.jpg?sz=50
+            // Filter the string, ie: https://lh3.googleusercontent.com/.../photo.jpg?sz=50
             const profileImage = _.split(profile.photos[0].value, "?sz")[0];
 
-            const newUser = await new User({
+            var newUser = await new User({
                 auth: {
                     googleId: profile.id
                 },
                 personalInfo: {
-                    fullname: profile.displayName,
+                    fullName: profile.displayName,
                     firstName: profile.name.givenName,
-                    email: profile.emails[0].value,
+                    googleEmail: profile.emails[0].value,
                     profilePicture: profileImage
                 }
             }).save();

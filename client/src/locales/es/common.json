@@ -1,0 +1,7 @@
+{
+    "_comment": "Things that are reused everywhere, eg. Button labels 'save', 'cancel'. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "button": {
+        "arrow-back": "Atrás",
+        "more": "Más opciones"
+    }
+}

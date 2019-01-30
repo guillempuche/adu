@@ -1,0 +1,13 @@
+{
+    "_comment": "Chat's main page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "tooltip": {
+        "icon-notification-on": "No molestar",
+        "icon-notification-off": "Activar notificacions",
+        "icon-settings": "Configuració",
+        "icon-database": "Base de Dades"
+    },
+    "menu": {
+        "settings": "Configuració",
+        "database": "Base de Dades"
+    }
+}

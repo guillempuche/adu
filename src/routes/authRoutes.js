@@ -3,6 +3,7 @@
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const keys = require("../config/keys");
+const { deleteUserGoogleAccountId } = require("../utils/cleanData");
 
 // app.use() methods
 module.exports.initialize = app => {
@@ -11,7 +12,7 @@ module.exports.initialize = app => {
     app.use(
         cookieSession({
             maxAge: 90 * 24 * 60 * 60 * 1000, // === 90 days
-            // Encrypted the cookie. User cannot manually change the user's id.
+            // Encrypted the cookie created manually. User cannot manually change the user's id.
             keys: [keys.cookieKey]
         })
     );
@@ -43,8 +44,8 @@ module.exports.routes = app => {
             session: true
         }),
         (req, res) => {
-            // res.redirect("/surveys");
-            res.send(req.user);
+            // res.send(req.user);
+            res.redirect("/app");
         }
     );
 
@@ -53,10 +54,19 @@ module.exports.routes = app => {
         // It takes the cookie that contains our user's id and it kill the id
         // that is in there.
         req.logout();
-        res.redirect("/"); // if $ res.send(req.user); === undefined
+        res.redirect("/login"); // if $ res.send(req.user); === undefined
     });
 
+    // IMPORTANT: if user is logout, the 'res.user' will be an empty string.
     app.get("/api/current_user", (req, res) => {
-        res.send(req.user);
+        if (req.user !== undefined) {
+            // Clean data before expose it to the client side.
+            var user = deleteUserGoogleAccountId(req.user);
+
+            res.status(200).send(user);
+        } else {
+            // 404 === user not found
+            res.status(404).send("");
+        }
     });
 };
