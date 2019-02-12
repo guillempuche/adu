@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Definir el objeto con nombre `exports` para convertir `module.exports = ...`
@@ -14,12 +14,12 @@
  * Ejemplos en: https://babeljs.io/docs/plugins/transform-es2015-modules-commonjs/
  * Más información sobre `defineProperty()` en https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-const builder = require("botbuilder");
-const keys = require("../config/keys");
-const { logMessage } = require("../middlewares/chat/logMessages");
-const handoff_1 = require("../middlewares/chat/handoff");
-const commands = require("../middlewares/chat/commands");
+Object.defineProperty(exports, '__esModule', { value: true });
+const builder = require('botbuilder');
+const keys = require('../config/keys');
+const { logMessage } = require('../middlewares/chat/logMessages');
+const handoff_1 = require('../middlewares/chat/handoff');
+const commands = require('../middlewares/chat/commands');
 
 const PORT = 5001;
 
@@ -30,7 +30,7 @@ module.exports = (app, express) => {
 
     // Setup bot Express server
     app.listen(PORT, () => {
-        console.log("Bot server on port", PORT);
+        console.log('Bot server on port', PORT);
     });
 
     // Not use Bot State because it may be deprecated.
@@ -39,8 +39,10 @@ module.exports = (app, express) => {
     // ChatConnector class connects your bot to the Bot Framework Connector Service (webchat,
     // Facebook...)
     const connector = new builder.ChatConnector({
-        appId: keys.microsoft.appId,
-        appPassword: keys.microsoft.appPassword
+        // appId: keys.microsoft.appId,
+        // appPassword: keys.microsoft.appPassword
+        appId: keys.microsoftAppId,
+        appPassword: keys.microsoftAppPassword
     });
 
     // UniversalBot class forms the brains of our bot. It's responsible for managing all the
@@ -48,25 +50,25 @@ module.exports = (app, express) => {
     const bot = new builder.UniversalBot(connector, [
         // We resend to oneself all messages that aren't commands.
         function(session, args, next) {
-            session.send("Echo " + session.message.text);
+            session.send('Echo ' + session.message.text);
         }
-    ]).set("storage", inMemoryStorage); // Register in-memory storage
+    ]).set('storage', inMemoryStorage); // Register in-memory storage
 
-    app.post("/api/messages", connector.listen());
+    app.post('/api/messages', connector.listen());
 
     // replace this function with custom login/verification for agents
-    const isAgent = session => session.message.user.id.startsWith("agent");
+    const isAgent = session => session.message.user.id.startsWith('agent');
     const handoff = new handoff_1.Handoff(bot, isAgent);
 
     // ==========================
     //      TESTING
     // ==========================
     var client = {
-        id: "123",
-        name: "Guillem Puche"
+        id: '123',
+        name: 'Guillem Puche'
     };
     var univerisity = {
-        _id: "5b7ebd9cdc02ae7b301375cf"
+        _id: '5b7ebd9cdc02ae7b301375cf'
     };
 
     //bot.receive(session.send({ type: "typing" }));
@@ -88,8 +90,8 @@ module.exports = (app, express) => {
             botbuilder: function(session, next) {
                 // Filtrar el mensaje del objeto 'session' ya que entre los mensajes
                 // del usuario o el bot hay informacion irrelevante 'conversationUpdate'
-                if (session.type !== "conversationUpdate") {
-                    session.messageFrom = "user";
+                if (session.type !== 'conversationUpdate') {
+                    session.messageFrom = 'user';
 
                     logMessage(session);
                 }
@@ -109,8 +111,8 @@ module.exports = (app, express) => {
                 // IMPORTANTE: objeto 'session' es diferente que en mensaje recibido
                 // Filtrar el mensaje del objeto 'session' ya que entre los mensajes
                 // del usuario o el bot hay informacion irrelevante 'conversationUpdate'
-                if (session.type !== "conversationUpdate") {
-                    session.messageFrom = "bot";
+                if (session.type !== 'conversationUpdate') {
+                    session.messageFrom = 'bot';
 
                     logMessage(session);
                 }

@@ -1,5 +1,8 @@
 node_modules
-dev.js
+.vscode
 
 # dev is the development folder
 dev
+
+logs
+stackify-debug.log
