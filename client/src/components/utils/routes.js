@@ -3,12 +3,12 @@
  * @module ROUTES
  */
 
-const ROOT = 'app';
+const ROOT = '';
 
 exports.ROUTES = {
     landing: {
         title: 'Landing',
-        path: '/'
+        path: '/landing'
     },
     login: {
         title: 'Login',
