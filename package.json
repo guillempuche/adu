@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "server": "nodemon index.js",
+        "server": "nodemon --inspect=9999 index.js",
         "client": "npm run start --prefix client",
         "server-client": "concurrently \"npm run server\" \"npm run client\"",
         "debug": "concurrently \"npm run debug-server\" \"npm run debug-client\"",
@@ -25,12 +25,13 @@
         "cookie-session": "^2.0.0-beta.3",
         "express": "^4.16.3",
         "lodash": "^4.17.10",
+        "mongo-dot-notation": "^1.2.0",
         "mongoose": "^5.2.1",
         "morgan": "^1.9.1",
         "passport": "^0.4.0",
         "passport-auth0": "^1.1.0",
         "path-parser": "^4.1.1",
-        "stackify-logger": "^1.0.9",
+        "stackify-logger": "^2.0.2",
         "winston": "^3.2.1",
         "winston-stackify": "^1.0.1"
     },

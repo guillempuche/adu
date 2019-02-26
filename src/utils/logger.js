@@ -108,11 +108,11 @@ var logger = filePathName => {
 };
 
 /**
- * Create a stream object with a 'write' function that will be used by
- * `morgan`.
- * By default, morgan outputs to the console only, so let's define a stream
- * function that will be able to get morgan-generated output into the
- * winston log files.
+ * Options object accepted by Morgan.
+ *
+ * @property {function} `write` - Create a stream object with a 'write'
+ * function that will be used by `morgan`. By default, morgan outputs
+ * to the console only, so let's define a stream function that will be able to get morgan-generated output into the winston log files.
  */
 const loggerMorgan = {
     write: function(message, encoding) {
@@ -132,11 +132,10 @@ const loggerMorgan = {
  * @param {object} app - Express app.
  */
 const settingMorgan = app => {
-    // https://medium.com/front-end-weekly/node-js-logs-in-local-timezone-on-morgan-and-winston-9e98b2b9ca45
+    // More info: https://medium.com/front-end-weekly/node-js-logs-in-local-timezone-on-morgan-and-winston-9e98b2b9ca45
     morgan.token('userId', (req, res) => {
-        const { session } = req;
-        return _.get(req, 'session.user.id') || 'undefined';
-        //session ? session.user .id : 'undefined';
+        const { user } = req;
+        return user ? user.id : 'undefined';
     });
 
     // Custom format.
@@ -144,14 +143,39 @@ const settingMorgan = app => {
         'customFormat',
         '#HttpRequest userId=:userId - [:date[clf]] ":method :url" :status - :response-time ms'
     );
-    app.use(morgan('customFormat', { stream: loggerMorgan }));
 
-    // In development Morgan uses the dev pre-defined format.
-    //app.use(morgan('dev'));
+    /**
+     * @param {function} morgan - Morgan logger middleware with given
+     * `format` and `options`. `immediate`: requests will be logged even
+     * if the server crashes, but data from the response (like the
+     * response code, content length...) cannot be logged.
+     */
+    app.use(
+        morgan('customFormat', {
+            immediate: true,
+            stream: loggerMorgan
+        })
+    );
+};
+
+/**
+ * Main error handler
+ *
+ * @param {object} app - Express app.
+ */
+const errorHandler = app => {
+    app.use((err, req, res, next) => {
+        if (err) {
+            logger(__filename).error('[Main Error Handler] ' + err.stack);
+            res.status(status);
+            res.send(err);
+        }
+    });
 };
 
 module.exports = {
     stackifyUncaughtException,
     logger,
-    settingMorgan
+    settingMorgan,
+    errorHandler
 };

@@ -11,7 +11,7 @@ export const formValidation = {
     email: {
         label: "E-mail inválido",
         labelOptional:
-            "Rectifica el e-mail o borra todos los carácteres para continuar",
+            "Rectifica el correo o borra todos los carácteres para continuar",
         validation: validateEmail
     }
 };

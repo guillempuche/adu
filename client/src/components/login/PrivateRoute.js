@@ -14,8 +14,10 @@
 
 */
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import * as actions from '../../actions';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 
 import { ROUTES } from '../utils/routes';
 
@@ -38,7 +40,16 @@ class PrivateRoute extends Component {
             case false:
                 return <Redirect to={ROUTES.login.path} />;
             default:
-                return <Component {...props} />;
+                // If the user isn't a superadmin, hasn't any link
+                // with some faculty & isn't in Onboarding URL,
+                // then redirect to the Onboarding component.
+                if (
+                    auth.userType.superadmin === false &&
+                    auth._faculties.length === 0 &&
+                    props.location.pathname !== ROUTES.onboarding.path
+                )
+                    return <Redirect to={ROUTES.onboarding.path} />;
+                else return <Component {...props} />;
         }
     }
 
@@ -55,9 +66,15 @@ class PrivateRoute extends Component {
 }
 
 function mapStateToProps({ auth }) {
-    return {
-        auth
-    };
+    return { auth };
 }
 
-export default connect(mapStateToProps)(PrivateRoute);
+const enhance = compose(
+    connect(
+        mapStateToProps,
+        actions
+    ),
+    withRouter
+);
+
+export default enhance(PrivateRoute);

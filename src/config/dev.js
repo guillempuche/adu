@@ -6,6 +6,7 @@ module.exports = {
     auth0CallbackURL: 'http://localhost:5000/auth/callback',
     auth0LogoutURL: 'https://guillemau-test.eu.auth0.com/v2/logout',
     logoutURL: 'http://localhost:5000',
+    loginURL: '/login',
     mongoURI:
         'mongodb://guillempuche:1231mlab6456@ds018708.mlab.com:18708/adu-dev',
     cookieKey: 'asdfgh123456jhgfd7654edcv3regfder',

@@ -1,4 +1,4 @@
-import { FETCH_USER } from "../actions/types";
+import { FETCH_USER } from '../actions/types';
 
 /*
  * Initialy state is null because when the app initializes, we don't know if
@@ -11,7 +11,7 @@ export default function(state = null, action) {
                 3 state's values:
                     - null | false | action payload
                     
-                If user is logout, the api return an empty string (=== false). Else
+                If user is logout, the API return an empty string (=== false). Else
                 returns the user model.
                 Cases:
                     - false (or empty string) || (anything), return (anything): If payload is an empty string ("" === false)  false, return false

@@ -3,91 +3,100 @@
     then it passes the dispatch function as an argument. 
  */
 
-import axios from "axios";
+import axios from 'axios';
 import {
     FETCH_USER,
-    FETCH_UNIVERSITY,
-    FETCH_CLIENT,
-    FETCH_ALL_CLIENTS,
-    SELECT_CHAT,
-    OPEN_SIDENAV
-} from "./types";
+    FETCH_ALL_USERS,
+    SELECTED_USER,
+    EDIT_USER,
+    DELETE_SELECTED_USER
+} from './types';
 
-// Dispatch the User model
-export const fetchUser = () => async dispatch => {
-    const res = await axios.get("/api/current_user");
+/**
+ * Dispatch (= return) the User model.
+ */
+const fetchUser = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/current_user');
 
+        dispatch({
+            type: FETCH_USER,
+            payload: res.data
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+/**
+ * Get all users list according to user permission:
+ * - Superadmin: get all users
+ * - Admin: get users only from his faculty
+ */
+const fetchAllUsers = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/users/all');
+        const { users, usersId } = res.data;
+
+        dispatch({
+            type: FETCH_ALL_USERS,
+            users,
+            usersId
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+/**
+ * Change data for a user and then update all users list.
+ *
+ * @param {String} userId - User's id to know which user we have to modify.
+ * @param {String} [displayName=undefined] - New user's name.
+ * @param {String} [otherEmail=undefined] - New user's email.
+ * @param {String} [role=undefined] - New user's role.
+ */
+const editUser = newUserValues => async dispatch => {
+    try {
+        const { data } = await axios.post('/api/users/edit', newUserValues);
+
+        console.log(data);
+
+        /**
+         * Update state that has all users list with the new user data.
+         * @param {Object} userFieldsToUpdate - It's true if user edition has been success.
+         */
+        dispatch({
+            type: EDIT_USER,
+            userFieldsToUpdate: {
+                name: data.personalInfo.name.displayName,
+                emailAccount: data.personalInfo.emails.account,
+                role: data.role
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+/**
+ * Save the user's id selected.
+ * @param {object} user - User data
+ */
+const selectedUser = user => dispatch => {
     dispatch({
-        type: FETCH_USER,
-        payload: res.data
+        type: SELECTED_USER,
+        payload: user
     });
 };
 
-// Dispatch the University model
-export const fetchUniversity = () => async dispatch => {
-    const res = await axios.get("/api/university");
-
+/**
+ * Delete the user's id selected.
+ */
+const deleteSelectedUser = () => dispatch => {
     dispatch({
-        type: FETCH_UNIVERSITY,
-        payload: res.data
+        type: DELETE_SELECTED_USER
     });
 };
 
-export const newClient = (client, university) => async dispatch => {
-    const res = await axios.post("/api/client/new", { client, university });
-
-    dispatch({
-        type: FETCH_CLIENT,
-        payload: res.data
-    });
-};
-
-export const fetchAllClients = university => async dispatch => {
-    const res = await axios.post("/api/client/all", university);
-
-    dispatch({
-        type: FETCH_ALL_CLIENTS,
-        payload: res.data
-    });
-};
-
-export const selectChat = client => dispatch => {
-    dispatch({
-        type: SELECT_CHAT,
-        payload: client
-    });
-};
-
-export const submitNewUniversityForm = name => async dispatch => {
-    console.log("action UniversityForm =", name);
-
-    const res = await axios.post("/api/user/university/new", name);
-
-    console.log("action UniversityForm response =", res);
-
-    dispatch({
-        type: FETCH_USER,
-        payload: res.data
-    });
-};
-
-export const submitNewEmailForm = name => async dispatch => {
-    console.log("action EmailForm =", name);
-
-    const res = await axios.post("/api/user/email/new", name);
-
-    console.log("action EmailForm response =", res);
-
-    dispatch({
-        type: FETCH_USER,
-        payload: res.data
-    });
-};
-
-// When the sidenav is opened or closed we save the value.
-export const openSideNav = open => async dispatch => {
-    dispatch({
-        type: OPEN_SIDENAV,
-        payload: { openSideNav: open }
-    });
-};
+export { fetchUser, editUser, fetchAllUsers, selectedUser, deleteSelectedUser };

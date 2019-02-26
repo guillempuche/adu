@@ -8,6 +8,6 @@
     },
     "menu": {
         "settings": "Configuración",
-        "database": "Base de Datos"
+        "logout": "Cerrar sesión"
     }
 }

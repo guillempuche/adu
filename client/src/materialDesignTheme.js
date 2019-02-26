@@ -12,6 +12,11 @@ export const theme = createMuiTheme({
             main: '#d6156c',
             light: '#ff5a9a',
             dark: '#9f0042'
+        },
+        error: {
+            main: '#ffab00',
+            light: '#ffdd4b',
+            dark: '#c67c00'
         }
     },
     // Migration to typography v2.

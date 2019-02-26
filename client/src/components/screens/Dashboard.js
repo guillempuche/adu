@@ -1,17 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import * as actions from '../../actions';
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
 import AppBar from '../navBar/AppBar';
 import Chat from './Chat';
-import Settings from './Settings';
+import Settings from '../settings/Settings';
 import Database from './Database';
 import { ROUTES } from '../utils/routes';
 
-const styles = theme => ({});
+const styles = theme => ({
+    body: {
+        width: '100%',
+        overflowY: 'auto'
+    }
+});
 
 /**
  * Dashboard where there are the main frames for the app.
@@ -20,16 +22,12 @@ const styles = theme => ({});
  * - `Appbar` - Navigation bar.
  * - `Chat`, `Settings`, `Database` - View of chat, settings and database frames,
  */
-class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <Router>
-                <Fragment>
-                    <Route path={ROUTES.app.path} component={AppBar} />
+function Dashboard({ classes }) {
+    return (
+        <Router>
+            <Fragment>
+                <Route path={ROUTES.app.path} component={AppBar} />
+                <div className={classes.body}>
                     <Route exact path={ROUTES.app.path} component={Chat} />
                     <Route
                         exact
@@ -41,10 +39,10 @@ class Dashboard extends Component {
                         path={ROUTES.database.path}
                         component={Database}
                     />
-                </Fragment>
-            </Router>
-        );
-    }
+                </div>
+            </Fragment>
+        </Router>
+    );
 }
 
 export default withStyles(styles)(Dashboard);

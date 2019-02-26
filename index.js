@@ -36,23 +36,25 @@ app.use(bodyParser.json());
 // ===============================================
 //      LOGGERS
 // ===============================================
-var logger = require('./src/utils/logger').logger(__filename);
-stackifyUncaughtException;
 // HTTP request logger.
 settingMorgan(app);
+require('./src/utils/logger').logger(__filename);
+stackifyUncaughtException;
 // ===============================================
 
 // ==============================================
 //      EXPRESS APP MIDDLEWARES
 // ==============================================
 
-// Initialitzing authentication and cookie middlewares, they're the app.use() routes.
+// Initialitzing authentication and cookie middlewares, they're
+// the app.use() routes.
 require('./src/routes/authRoutes').initialize(app);
 // Init all auth app.get() routes
 require('./src/routes/authRoutes').routes(app);
 require('./src/routes/userRoutes')(app);
-require('./src/routes/universityRoutes')(app);
+require('./src/routes/facultyRoutes')(app);
 require('./src/routes/clientRoutes')(app);
+require('./src/utils/logger').errorHandler(app); // Main error handler
 // ===============================================
 
 if (process.env.NODE_ENV === 'production') {

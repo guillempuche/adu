@@ -8,6 +8,9 @@ import commonES from './locales/es/common.json';
 import commonCA from './locales/ca/common.json';
 import chatAppBarES from './locales/es/chatAppBar.json';
 import chatAppBarCA from './locales/ca/chatAppBar.json';
+import loginES from './locales/es/login.json';
+import settingsES from './locales/es/settings.json';
+import settingsUsersTableES from './locales/es/settingsUsersTable.json';
 
 i18n.use(XHR)
     .use(LanguageDetector)
@@ -22,7 +25,10 @@ i18n.use(XHR)
         resources: {
             es: {
                 common: commonES,
-                chatAppBar: chatAppBarES
+                chatAppBar: chatAppBarES,
+                login: loginES,
+                settings: settingsES,
+                settingsUsersTable: settingsUsersTableES
             },
             ca: {
                 common: commonCA,

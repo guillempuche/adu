@@ -36,12 +36,22 @@ passport.serializeUser((user, done) => {
 /**
  * Deserialize user object from the cookie. Turn user's id into a user.
  * User model instance is added to req object as 'req.user'
- * id === user.id from serializeUser()
+ * id === user.id from serializeUser().
+ *
+ * We use 'populate()' to automatically replace the '_faculties' path
+ * in the User document with document from 'faculties' collection.
  */
 passport.deserializeUser((id, done) => {
-    User.findById(id).then(user => {
-        done(null, user);
-    });
+    try {
+        User.findById(id)
+            // Populate `_faculties` ids field on `req.user` throughout the app.
+            .populate('_faculties')
+            .then(user => {
+                done(null, user);
+            });
+    } catch (err) {
+        logger.warn(err.stack);
+    }
 });
 // =========================================
 
@@ -59,8 +69,8 @@ passport.use(
             clientSecret: keys.auth0ClientSecret,
             // Callback URL where user will be redirected after Auth0 gives
             // us permission.
-            callbackURL: keys.auth0CallbackURL
-            //proxy: true
+            callbackURL: keys.auth0CallbackURL,
+            proxy: true
         },
         // Callback that is will be executed when Get user details after
         // callback is called.
@@ -77,13 +87,19 @@ passport.use(
                      *
                      * The user's account variables can change overtime, except for
                      * user's id.
+                     *
+                     * If user already exist on the database, then return the details
+                     * found about it.
                      */
-                    const user = await User.findOne({
-                        auth: { auth0UserId: profile.user_id }
-                    });
+                    var user = await User.findOneAndUpdate(
+                        {
+                            auth: { auth0UserId: profile.user_id }
+                        },
+                        {
+                            'personalInfo.emails.auth': profile.emails[0].value
+                        }
+                    );
 
-                    // If user alreeady exist on the database, then return the details
-                    // found about it.
                     if (user) {
                         logger.info(
                             `#login User=${
@@ -104,7 +120,7 @@ passport.use(
                                 givenName: profile.name.givenName,
                                 familyName: profile.name.familyName
                             },
-                            email: { default: profile.emails[0].value },
+                            emails: { auth: profile.emails[0].value },
                             profilePicture: profile.picture
                         }
                     }).save();

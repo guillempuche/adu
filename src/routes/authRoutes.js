@@ -1,5 +1,8 @@
 /**
  * Authentication routes setting.
+ *
+ * Returns 2 objects: `initialize` (create session cookie via PassportJS)
+ * and `routes` (authentification methods)
  */
 'use strict';
 
@@ -7,12 +10,13 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('../config/keys');
 const logger = require('../utils/logger').logger(__filename);
+const requireLogin = require('../middlewares/requireLogin');
 const { deleteAuth0UserId } = require('../utils/cleanData');
 
 /**
  * Export the initialitzion of the authentication and the cookie session.
  *
- * Here we use: `cookieSession`, `passport.initialize` and `passport.session`.
+ * We use: `cookieSession`, `passport.initialize` and `passport.session`.
  *
  * @param {object} app - Express application.
  */
@@ -52,8 +56,11 @@ module.exports.initialize = app => {
  * Export the authentication routes. We use passport to authenticate
  * with Auth0, and setting the callback.
  *
- * We use routes like: `/auth0` `/callback`, `/logout` and
- * information about the `/current_user`.
+ * Get methods:
+ * - `/auth`: start the login/signup with Auth0
+ * - `/auth/callback`: catch the Auth0 callback
+ * - `/api/logout`: logout = delete user data on the cookie
+ * - `/api/current_user`: get current user data.
  *
  * @param {object} app - Express application.
  */
@@ -104,21 +111,23 @@ module.exports.routes = app => {
         }
     });
 
-    // IMPORTANT: if user is logout, the 'res.user' will be an empty string.
+    /**
+     * Return all data from the user provided by the passport's cookie, but
+     * we delete the Auth0 id.
+     *
+     * If user is logout, the `res.user` will be an empty string. We response
+     * sending `false`.
+     */
     app.get('/api/current_user', (req, res) => {
-        if (req.user !== undefined) {
-            logger.info(
-                `#API Get user data for user=${req.user.auth.auth0UserId}`
-            );
-            // Clean data before expose it to the client side.
+        if (req.user) {
+            logger.info(`#API Get user data for user=${req.user.id}`);
+
+            // Clean data before we expose it to the client server.
             var user = deleteAuth0UserId(req.user);
 
-            res.status(200).send(user);
+            res.send(user);
         } else {
-            // 404 === user not found
-            logger.info('#API User not found.');
-
-            res.status(404).send('');
+            res.send(false);
         }
     });
 };

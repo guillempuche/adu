@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { compose } from 'redux';
 import { withNamespaces } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { ROUTES } from '../utils/routes';
 
@@ -24,8 +24,12 @@ const styles = theme => ({
  */
 function ChatAppBarMenu({ classes, t }) {
     return (
-        <div>
+        <Fragment>
             <Link to={ROUTES.settings.path} className={classes.link}>
+                {/* IMPORTANT:
+                    - Anchor tag: navigate to a completely different HTML document.
+                    - Link tag: navigate to a different route rendered by React Router.
+                    */}
                 <MenuItem>
                     <ListItemIcon>
                         <AccountCircleIcon />
@@ -33,15 +37,15 @@ function ChatAppBarMenu({ classes, t }) {
                     <ListItemText primary={t('menu.settings')} />
                 </MenuItem>
             </Link>
-            <Link to={ROUTES.database.path} className={classes.link}>
+            <a href={ROUTES.logout.path} className={classes.link}>
                 <MenuItem>
                     <ListItemIcon>
-                        <TextFieldsIcon />
+                        <ExitToAppIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('menu.database')} />
+                    <ListItemText primary={t('menu.logout')} />
                 </MenuItem>
-            </Link>
-        </div>
+            </a>
+        </Fragment>
     );
 }
 

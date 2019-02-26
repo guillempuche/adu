@@ -12,22 +12,32 @@ exports.ROUTES = {
     },
     login: {
         title: 'Login',
-        path: '/login'
+        path: '/login' // Same pathname at server keys.
+    },
+    auth: {
+        path: '/auth' // Same pathname at server authRoute.js
+    },
+    onboarding: {
+        title: 'Entrar en la facultad',
+        path: '/onboarding'
     },
     app: {
         title: 'App',
-        path: `/${ROOT}`
+        path: `/`
     },
     chat: {
         title: 'Consultas',
-        path: `/${ROOT}/consultas`
+        path: `/consultas`
     },
     database: {
         title: 'Base de Datos',
-        path: `/${ROOT}/database`
+        path: `/database`
     },
     settings: {
         title: 'Configuración',
-        path: `/${ROOT}/settings`
+        path: `/settings`
+    },
+    logout: {
+        path: '/api/logout' // Same oathname at server authRoute.js
     }
 };

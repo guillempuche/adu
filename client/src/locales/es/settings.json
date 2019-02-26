@@ -1,0 +1,9 @@
+{
+    "_comment": "Settings page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "text": {
+        "title-onboarding": "🆕 Código para invitar un nuevo usuario a la facultad",
+        "content-onboarding": "Entra en el Asistente Universitario 🤖 de tu Facultad con el código que tus compañeros tienen en el pantalla: CONFIGURACIÓN --> INVITAR USUARIO",
+        "content-title-faculty": "Facultad",
+        "content-code-faculty": "Código"
+    }
+}

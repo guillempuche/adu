@@ -21,11 +21,10 @@ const userSchema = new Schema(
                 givenName: String,
                 familyName: String
             },
-            email: {
-                default: {
-                    type: String,
-                    required: true
-                }
+            emails: {
+                auth: { type: String, required: true },
+                account: String,
+                others: [String]
             },
             profilePicture: String
         },
@@ -39,11 +38,17 @@ const userSchema = new Schema(
                 default: true
             }
         },
+        role: { type: String, default: null },
         _university: {
             type: Schema.Types.ObjectId,
-            ref: 'University'
+            ref: 'universities'
         },
-        _faculties: [{ type: Schema.Types.ObjectId, ref: 'Faculty' }]
+        _faculties: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'faculties'
+            }
+        ]
     },
     // Mongoose will store all objects even they are empty
     { minimize: false }
