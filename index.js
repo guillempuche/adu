@@ -12,48 +12,51 @@ const {
     stackifyUncaughtException,
     settingMorgan
 } = require('./src/utils/logger');
-// Registering schemas before Passport requires it.
+
+// Register schemas before Passport or API requests require them.
 require('./src/models/User');
-require('./src/models/University');
 require('./src/models/Faculty');
 require('./src/models/Client');
+require('./src/models/Room');
+require('./src/models/Message');
 require('./src/utils/passport');
 
 // Setting Mongoose
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
+mongoose.connect(keys.mongoURI, {
+    useNewUrlParser: true,
+    // https://mongoosejs.com/docs/deprecations.html#-findandmodify-
+    useFindAndModify: false
+});
 
 // Setting the port
 const PORT = process.env.PORT || 5000;
 
 // Different ports to separate the traffic
 const app = express(); // Port for the web app
-// Bot routes
-// const app_bot = express(); // Port for the bot
-// require('./src/routes/chatRoutes')(app_bot, express);
-
 app.use(bodyParser.json());
 
 // ===============================================
-//      LOGGERS
+//          LOGGERS
 // ===============================================
 // HTTP request logger.
 settingMorgan(app);
 require('./src/utils/logger').logger(__filename);
 stackifyUncaughtException;
-// ===============================================
 
 // ==============================================
-//      EXPRESS APP MIDDLEWARES
+//          EXPRESS APP MIDDLEWARES
 // ==============================================
-
 // Initialitzing authentication and cookie middlewares, they're
 // the app.use() routes.
-require('./src/routes/authRoutes').initialize(app);
+require('./src/routes/authRoutes').initialize(app); // Start cookies & Passport.
 // Init all auth app.get() routes
 require('./src/routes/authRoutes').routes(app);
 require('./src/routes/userRoutes')(app);
 require('./src/routes/facultyRoutes')(app);
 require('./src/routes/clientRoutes')(app);
+require('./src/routes/roomRoutes')(app);
+require('./src/routes/messageRoutes')(app);
+require('./src/routes/chatRoutes')(app);
 require('./src/utils/logger').errorHandler(app); // Main error handler
 // ===============================================
 

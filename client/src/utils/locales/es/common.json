@@ -1,0 +1,12 @@
+{
+    "_comment": "Things that are reused everywhere, eg. Button labels 'save', 'cancel'. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "button": {
+        "arrow-back": "Atrás",
+        "more": "Más opciones"
+    },
+    "form": {
+        "validation-email": "Rectifica el email",
+        "label-email": "Email",
+        "placeholder-email": "ej: nombre@gmail.com"
+    }
+}

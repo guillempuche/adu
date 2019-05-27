@@ -5,13 +5,13 @@
  * - `get /api/users/all`
  * - `post /api/users/edit`
  */
-
 'use strict';
 
 const _ = require('lodash');
 const $ = require('mongo-dot-notation');
 const mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectID;
+
 const logger = require('../utils/logger').logger(__filename);
 const requireLogin = require('../middlewares/requireLogin');
 
@@ -88,15 +88,15 @@ module.exports = app => {
     /**
      * Change data for a user. Then return all users list.
      */
-    app.post('/api/users/edit', requireLogin, async (req, res) => {
+    app.put('/api/users/:userId/edit', requireLogin, async (req, res) => {
         /**
          * @typedef {string} userId - User's id to know which user we have to modify.
          * @typedef {string} [displayName=undefined] - New user's name.
          * @typedef {string} [otherEmail=undefined] - New user's email.
          * @typedef {string} [role=undefined] - New user's role.
          */
-        const { userId, formValues } = req.body;
-        const { name, email, role } = formValues;
+        const { userId } = req.params;
+        const { name, email, role } = req.body;
 
         /**
          * Transform objects to mongo update instructions.
@@ -106,7 +106,7 @@ module.exports = app => {
          *
          * @typedef {Object} operator={} - User values to update.
          */
-        var operator = {};
+        let operator = {};
 
         // Update the operator if some Form's values are `undefined`,
         // they won't updated on the database.
@@ -122,7 +122,9 @@ module.exports = app => {
                 operator,
                 {
                     // Return the modified document rather than the original.
-                    new: true
+                    new: true,
+                    // Update validators validate the update operation against the model's schema.
+                    runValidators: true
                 }
             );
 
@@ -139,49 +141,50 @@ module.exports = app => {
     });
 
     /**
-     * Change data for a user. Then return all users list.
+     * Link a faculty's id to the User. Return `true` if all works well.
      */
-    app.post('/api/users/editFaculty', requireLogin, async (req, res) => {
-        /**
-         * @typedef {string} code - Faculty´s id to be linked.
-         */
-        const userId = req.user.id;
-        const { code } = req.body;
-        var userUpdate;
-
-        try {
+    app.post(
+        '/api/users/:userId/faculties/:facultyId',
+        requireLogin,
+        async (req, res) => {
             /**
-             * SAFE: only users who hasn't linked to any faculty will call this
-             * route, but for safety we don't update the faculty'id of the user if
-             * it already exists.
+             * @typedef {string} code - Faculty´s id to be linked.
              */
-            const user = await User.findOne({
-                _id: userId,
-                _faculties: ObjectId(code)
-            }).then(async user => {
-                if (user !== true) {
-                    userUpdate = await User.findOneAndUpdate(
-                        { _id: userId },
-                        { $push: { _faculties: { _id: ObjectId(code) } } },
-                        {
-                            // Return the modified document rather than the original.
-                            new: true
-                        }
-                    );
-                }
-            });
-            console.log(userUpdate);
+            const { userId, facultyId } = req.params;
 
-            res.send(true);
-        } catch (err) {
-            // 404 === not found
-            logger.error(
-                `#API statusCode=404 Error on updating the faculty's id=${
-                    req.body.code
-                } for the user=${userId} by user=${userId} - ${err}`
-            );
+            try {
+                /**
+                 * SAFE: only users who hasn't linked to any faculty will call this
+                 * route, but for safety we don't update the faculty'id of the user if
+                 * it already exists.
+                 */
+                await User.findOne({
+                    _id: userId,
+                    _faculties: ObjectId(facultyId)
+                }).then(async user => {
+                    if (user !== true) {
+                        await User.findOneAndUpdate(
+                            { _id: userId },
+                            { $push: { _faculties: ObjectId(facultyId) } },
+                            {
+                                // Return the modified document rather than the original.
+                                new: true,
+                                // Update validators validate the update operation against the model's schema.
+                                runValidators: true
+                            }
+                        );
+                    }
+                });
 
-            res.send(false);
+                res.send(true);
+            } catch (err) {
+                // 404 === not found
+                logger.error(
+                    `#API statusCode=404 Error on updating the facultyId=${facultyId} for the user=${userId} by user=${userId}. ${err}`
+                );
+
+                res.send(false);
+            }
         }
-    });
+    );
 };

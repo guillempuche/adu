@@ -1,25 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reduxThunk from 'redux-thunk';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { theme } from './materialDesignTheme';
+import moment from 'moment';
+import i18next from 'i18next';
+import 'moment/locale/es'; // Moment translated to spanish
+
+import store from './reducers/store';
+import './utils/locales/i18n';
 import './index.css'; // Adjust the margin and padding of the body.
-
+import { theme } from './materialDesignTheme';
 import App from './components/App';
-import reducers from './reducers';
-import './i18n';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-    reducers,
-    // PreloadedS state is the initial state of app
-    {},
-    // Inspect whatever value we return from the Action Creator with the dispatch function.
-    composeEnhancers(applyMiddleware(reduxThunk))
-);
+// Set the fallback language (the last element) to moment.
+moment.locale(i18next.languages[i18next.languages.length - 1]);
 
 ReactDOM.render(
     <Provider store={store}>

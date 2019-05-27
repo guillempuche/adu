@@ -1,47 +1,58 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
-import AppBar from '../navBar/AppBar';
-import Chat from './Chat';
-import Settings from '../settings/Settings';
+import ROUTES from '../../utils/routes';
+import BarFrame from './navBar/BarFrame';
+import ChatUserFrame from './chat/ChatUserFrame';
+import Settings from './settings/Settings';
 import Database from './Database';
-import { ROUTES } from '../utils/routes';
+import Error from './Error';
 
 const styles = theme => ({
-    body: {
+    dashboard: {
+        display: 'flex',
+        flexDirection: 'column',
+        // Height is necessary for the components that use Infinite Scroll
+        // component. Else, content fit & scroll doesn't work.
+        height: '100%'
+    },
+    dashboardContent: {
+        flexGrow: 1,
         width: '100%',
         overflowY: 'auto'
     }
 });
 
 /**
- * Dashboard where there are the main frames for the app.
+ * @function Dashboard It has the main frames for the app for users.
  *
  * Main custom components used:
- * - `Appbar` - Navigation bar.
- * - `Chat`, `Settings`, `Database` - View of chat, settings and database frames,
+ * - `BarFrame` - Navigation bar.
+ * - `ChatUserFrame`, `Settings`, `Database` - View of the chats, settings and database frames.
  */
 function Dashboard({ classes }) {
     return (
-        <Router>
-            <Fragment>
-                <Route path={ROUTES.app.path} component={AppBar} />
-                <div className={classes.body}>
-                    <Route exact path={ROUTES.app.path} component={Chat} />
+        <div className={classes.dashboard}>
+            <div>
+                <BarFrame />
+            </div>
+            <div className={classes.dashboardContent}>
+                <Switch>
                     <Route
-                        exact
-                        path={ROUTES.settings.path}
-                        component={Settings}
+                        path={ROUTES.chatUser.path}
+                        component={ChatUserFrame}
                     />
-                    <Route
-                        exact
-                        path={ROUTES.database.path}
-                        component={Database}
-                    />
-                </div>
-            </Fragment>
-        </Router>
+                    <Route path={ROUTES.settings.path} component={Settings} />
+                    <Route path={ROUTES.faqs.path} component={Database} />
+                    {/* All other URLs will we redirected to the Chat component. */}
+                    <Route path={ROUTES.app.path}>
+                        <Redirect to={ROUTES.chatUser.path} />
+                    </Route>
+                </Switch>
+            </div>
+            <Error />
+        </div>
     );
 }
 

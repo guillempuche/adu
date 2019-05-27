@@ -39,16 +39,16 @@ const userSchema = new Schema(
             }
         },
         role: { type: String, default: null },
-        _university: {
-            type: Schema.Types.ObjectId,
-            ref: 'universities'
-        },
         _faculties: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'faculties'
             }
         ]
+        // _university: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'universities'
+        // },
     },
     // Mongoose will store all objects even they are empty
     { minimize: false }

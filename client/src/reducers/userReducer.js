@@ -1,10 +1,5 @@
 import produce from 'immer';
-import {
-    FETCH_ALL_USERS,
-    SELECTED_USER,
-    EDIT_USER,
-    DELETE_SELECTED_USER
-} from '../actions/types';
+import * as types from '../actions/types';
 
 const initialState = {
     all: [],
@@ -22,16 +17,16 @@ const initialState = {
 export default function(state = initialState, action) {
     switch (action.type) {
         // Array of all users.
-        case FETCH_ALL_USERS:
+        case types.FETCH_ALL_USERS:
             return Object.assign({}, state, {
                 all: action.users,
                 allIds: action.usersId
             });
-        case SELECTED_USER:
+        case types.SELECTED_USER:
             return Object.assign({}, state, {
                 selectedUser: action.payload
             });
-        case EDIT_USER:
+        case types.EDIT_USER:
             const nextState = produce(state, draftState => {
                 const { name, emailAccount, role } = action.userFieldsToUpdate;
                 // The 2 variables point the same object.
@@ -51,7 +46,7 @@ export default function(state = initialState, action) {
                 });
             });
             return nextState;
-        case DELETE_SELECTED_USER:
+        case types.DELETE_SELECTED_USER:
             return Object.assign({}, state, {
                 selectedUser: null
             });

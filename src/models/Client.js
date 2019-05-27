@@ -1,25 +1,30 @@
-"use strict";
+'use strict';
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const MessageSchema = require("./Message"); // Sub-document schema
 
+/**
+ * A client is a user who chats with the faculty's chat. He can only be associate
+ * to one faculty.
+ */
 const clientSchema = new Schema(
     {
-        clientId: String,
-        personalInfo: {
-            name: String,
-            email: String
-        },
-        messages: [MessageSchema],
-        _university: {
+        name: String,
+        _faculty: {
             type: Schema.Types.ObjectId,
-            ref: "University",
+            ref: 'faculties',
             required: true
+        },
+        /**
+         * @typedef {Object} attributes Multiple information about client.
+         * @typedef {string} attributes.email Email to send notifications
+         */
+        attributes: {
+            email: String
         }
-    }
+    },
     // Mongoose will store all objects even they are empty
-    //{ minimize: false }
+    { minimize: false }
 );
 
-mongoose.model("clients", clientSchema);
+mongoose.model('clients', clientSchema);

@@ -6,11 +6,11 @@
  */
 'use strict';
 
+const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('../config/keys');
 const logger = require('../utils/logger').logger(__filename);
-const requireLogin = require('../middlewares/requireLogin');
 const { deleteAuth0UserId } = require('../utils/cleanData');
 
 /**
@@ -28,18 +28,30 @@ module.exports.initialize = app => {
      * session if no valid session was provided in the request, or a loaded
      * session from the request.
      *
+     * Session, which is built on top of Cookie, was created to specifically
+     * handle user identification.
+     *
      * Extract cookie data and assign the session object to incoming request.
      * Passport will pull user's id out of cookie data.
      *
      * Name of the cookie set by default is 'session'.
+     *
+     * More info: https://expressjs.com/en/advanced/best-practice-security.html#use-cookies-securely
      */
     app.use(
         cookieSession({
-            maxAge: 90 * 24 * 60 * 60 * 1000, // === 90 days
+            name: 'sessionId', // Using the default session cookie name can open your app to attacks.
+            maxAge: 365 * 24 * 60 * 60 * 1000, // === 1 years.
             // Encrypted the cookie created manually. User cannot manually change the user's id.
-            keys: [keys.cookieKey]
+            keys: [keys.cookieKey1]
         })
     );
+
+    /**
+     * Parse Cookie header and populate req.cookies with an object
+     * keyed by the custom cookies (it will be available on `req.signedCookies`).
+     */
+    app.use(cookieParser(keys.cookieKey2));
 
     // Initialize passport.
     app.use(passport.initialize());

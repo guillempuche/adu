@@ -1,15 +1,15 @@
-import { FETCH_USER } from '../actions/types';
+import * as types from '../actions/types';
 
 /*
- * Initialy state is null because when the app initializes, we don't know if
- * user is login before the app fetchs the user.
+ * Initialy state is `null` because when the app initializes, we don't know if
+ * user is logined before the app fetchs the user.
  */
 export default function(state = null, action) {
     switch (action.type) {
-        case FETCH_USER:
+        case types.USER_SAVE:
             /*
                 3 state's values:
-                    - null | false | action payload
+                    - null | false | action's payload
                     
                 If user is logout, the API return an empty string (=== false). Else
                 returns the user model.

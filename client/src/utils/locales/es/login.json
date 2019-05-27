@@ -1,0 +1,18 @@
+{
+    "_comment": "How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "text": {
+        "login": "Entrar en el Asistente Universitario 🤖",
+        "onboarding": "Entra en el Asistente Universitario 🤖 de tu Facultad con el código que tus compañeros tienen en el pantalla de CONFIGURACIÓN y apartado INVITAR USUARIO",
+        "logout": "Cerrar Sesión"
+    },
+    "form": {
+        "textfield": "Código",
+        "placeholder": "ej: 1c1eeee111...",
+        "validation-valid": "Correcto 👌",
+        "validation-async": "Incorrecto ❌",
+        "validation-sync": "Requerido. No escribir espacios en blanco"
+    },
+    "button": {
+        "login": "Entrar"
+    }
+}

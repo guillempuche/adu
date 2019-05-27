@@ -133,15 +133,15 @@ const loggerMorgan = {
  */
 const settingMorgan = app => {
     // More info: https://medium.com/front-end-weekly/node-js-logs-in-local-timezone-on-morgan-and-winston-9e98b2b9ca45
-    morgan.token('userId', (req, res) => {
-        const { user } = req;
-        return user ? user.id : 'undefined';
-    });
+    // morgan.token('userId', (req, res) => {
+    //     const { user } = req;
+    //     return user ? user.id : 'undefined';
+    // });
 
     // Custom format.
     morgan.format(
         'customFormat',
-        '#HttpRequest userId=:userId - [:date[clf]] ":method :url" :status - :response-time ms'
+        '#HttpRequest - [:date[clf]] ":method :url" :status :res[content-length] - :response-time ms'
     );
 
     /**

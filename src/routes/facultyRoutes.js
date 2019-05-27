@@ -2,7 +2,7 @@
  * API for faculty information.
  *
  * Methods:
- * - `get /api/faculties/checkId`
+ * - `get /api/faculties/:id`
  */
 'use strict';
 
@@ -17,24 +17,22 @@ module.exports = app => {
      * Check if faculty exist.
      * @return {boolean} - `true` if faculty existm, else `false`.
      */
-    app.get('/api/faculties/checkId', requireLogin, async (req, res) => {
-        const { id } = req.query;
+    app.get('/api/faculties/:facultyId', requireLogin, async (req, res) => {
+        const { facultyId } = req.params;
         try {
-            const faculty = await Faculty.findById({
-                _id: id
-            });
+            const faculty = await Faculty.findById(facultyId);
 
             if (faculty) res.send(true);
             else
                 throw Error(
-                    `Code=${id} isn't equal to any faculty's id. Fetched by user=${
+                    `Code=${facultyId} isn't equal to any faculty's id. Fetched by user=${
                         req.user.id
                     }.`
                 );
         } catch (err) {
             // 404 === Not found
             logger.warn(
-                `#API statusCode=404 Code=${id} isn't equal to any faculty's id. Fetched by user=${
+                `#API statusCode=404 Code=${facultyId} isn't equal to any faculty's id. Fetched by user=${
                     req.user.id
                 }. ${err}`
             );

@@ -1,0 +1,21 @@
+{
+    "_comment": "Chat's main page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "status": {
+        "online": "Online otra vez",
+        "offline": "No tienes conexión",
+        "poor-connection": "Conexión débil",
+        "error-save-message": "Problema para procesar el mensaje. Disculpa 🙏",
+        "error-client-attribute-email": "Error en guardar el email. Disculpa 🙏"
+    },
+    "general": {
+        "loader": "Cargando mensajes... 💬"
+    },
+    "content": {
+        "file-button-open": "Abrir",
+        "message-stopped-faqs": "Escribe tu duda para que una persona pueda responderte. 💬",
+        "template-email-new": "Escribe tu email para recibir la respuesta 🔔",
+        "template-email-edit": "Tu email donde recibirás la respuesta 🔔",
+        "template-email-caption": "Continua escribiendo tu duda",
+        "template-email-button": "Guardar"
+    }
+}

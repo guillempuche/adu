@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InputIcon from '@material-ui/icons/Input';
 
-import { ROUTES } from '../utils/routes';
+import ROUTES from '../../utils/routes';
 
 const styles = theme => ({
     root: {
@@ -58,24 +58,27 @@ class Onboarding extends Component {
      * Send faculty id (already verified) to be created to the actual
      * user database, then redirect user to the rest of the app.
      *
-     * @param {string} code - Faculty's id.
+     * @param {string} id - Faculty's id.
      */
-    async handleFacultyIdSubmit(code) {
+    async handleFacultyIdSubmit(id) {
         var userUpdated;
 
         try {
-            userUpdated = await axios.post('/api/users/editFaculty', code);
+            userUpdated = await axios.post(
+                `/api/users/${this.props.auth._id}/faculties/${id}`
+            );
 
             // Set state te be redirected to the rest of the app.
             if (userUpdated.data === true) {
                 this.setState(() => ({
                     redirectToApp: true
                 }));
-                //this.props.history.push(ROUTES.app.path);
+
+                // Update the user with the new information about the faculty.
                 this.props.fetchUser();
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -112,15 +115,15 @@ class Onboarding extends Component {
         const { redirectToApp } = this.state;
 
         /**
-         * If user has at least 1 faculty linked to him, then he's redirected.
+         * If user has at least 1 faculty linked to him, then he's redirected
+         * to the app.
          *
-         * 2 ways:
+         * 2 ways he's redirected:
          * - User is already linked before the component is mounted
          * - User submit the code (Faculty's id) to save to database, then he can be
          * redirected to the rest of the app.
          */
         if (auth._faculties.length > 0 || redirectToApp === true) {
-            // this.props.history.push(ROUTES.app.path);
             return <Redirect to={ROUTES.app.path} />;
         }
 
@@ -145,13 +148,21 @@ class Onboarding extends Component {
                                 size="large"
                                 color="secondary"
                                 className={classes.button}
-                                onClick={handleSubmit(code => {
-                                    this.handleFacultyIdSubmit(code);
+                                onClick={handleSubmit(formValue => {
+                                    this.handleFacultyIdSubmit(formValue.code);
                                 })}
                             >
                                 {t('button.login')}
                                 <InputIcon className={classes.iconButton} />
                             </Button>
+                            <a
+                                href={ROUTES.logout.path}
+                                className={classes.link}
+                            >
+                                <Typography variant="caption">
+                                    {t('text.logout')}
+                                </Typography>
+                            </a>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -186,7 +197,7 @@ const asyncValidate = async (...args) => {
     const { code } = args[0];
     const { t } = args[2];
     try {
-        var id = await axios.get(`/api/faculties/checkId?id=${code}`);
+        var id = await axios.get(`/api/faculties/${code}`);
     } catch (err) {
         console.log(err);
     }
@@ -198,19 +209,21 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
-const enhance = compose(
-    withNamespaces('login'),
-    withStyles(styles),
+const enhancer = compose(
     connect(
         mapStateToProps,
         actions
     ),
     withRouter,
+    // It has to be called before Redux Form to be able to
+    // use t function on validate().
+    withNamespaces('login'),
     reduxForm({
         form: 'onboardingForm',
         validate,
         asyncValidate
-    })
+    }),
+    withStyles(styles)
 );
 
-export default enhance(Onboarding);
+export default enhancer(Onboarding);

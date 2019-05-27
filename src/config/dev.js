@@ -9,17 +9,20 @@ module.exports = {
     loginURL: '/login',
     mongoURI:
         'mongodb://guillempuche:1231mlab6456@ds018708.mlab.com:18708/adu-dev',
-    cookieKey: 'asdfgh123456jhgfd7654edcv3regfder',
+    cookieKey1: '76f35080-77d1-4561-8f45-e70c4ff87eb6',
+    cookieKey2: '76f35080-77d1-4561-8f45-e70c4ff87eb6',
     logLevel: 'debug',
     stackifyEnv: 'guillemau-dev',
-    stackifyKey: '6Vw9Xc1Sj9Ns7Dn3Mk1Ub3Ww2Ur9Ot6Gc5Xr8Ad'
+    stackifyKey: '6Vw9Xc1Sj9Ns7Dn3Mk1Ub3Ww2Ur9Ot6Gc5Xr8Ad',
+    pubnubPublishKey: 'pub-c-7319a3d5-316a-4ddd-ace7-7269a57c745a',
+    pubnubSubscribeKey: 'sub-c-25fbd062-3a81-11e9-b5cf-1e59042875b2',
+    cloudinaryCloudName: 'guillemau',
+    cloudinaryKey: '578285166155937',
+    cloudinarySecret: 'vUN27abhUjeQO7pGQu846jUe9tk',
+    cloudinaryName: 'guillemau'
     // microsoftAppId: '6fd2a587-ff9e-4ad1-a3b0-ff4d3cf24f77',
     // microsoftAppPassword: 'mliwJNWK984^|@oubBHY64@',
-    /*google: {
-        clientId:
-            '565538767268-f086dm0p5g2j2kje3usr4lqv8gtsv5d7.apps.googleusercontent.com',
-        clientSecret: 'sKlDNVLB4U0u7TDeBjAFEEW2'
-    },
+    /*
     mongo: {
         uri:
             'mongodb://guillempuche:1231mlab6456@ds018708.mlab.com:18708/adu-dev'
