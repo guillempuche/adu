@@ -1,13 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { shadows } from '@material-ui/system';
 
-const defaultTheme = createMuiTheme({
-    // Migration to typography v2.
-    typography: {
-        useNextVariants: true
-    }
-});
+const defaultTheme = createMuiTheme({});
 
 // Color Tool: https://material.io/tools/color/#!/?view.left=0&view.right=1&primary.color=e60000&secondary.color=ac2cdb&primary.text.color=ffffff
 export const theme = createMuiTheme({

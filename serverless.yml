@@ -1,0 +1,47 @@
+# prettier-ignore
+service: au
+
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment: ${file(./src/config/${opt:stage, self:provider.stage}.json)}
+  profile: ${self:custom.profiles.${self:provider.stage}}
+
+custom:
+  profiles:
+    dev: au-dev
+  domains:
+    prod: api.guillemau.com
+    dev: dev-api.guillemau.com
+  customDomain:
+    domainName: ${self:custom.domains.${self:provider.stage}}
+    basePath: ''
+    stage: ${self:provider.stage}
+    certificateName: '*.guillemau.com'
+    createRoute53Record: true
+  serverless-offline:
+    port: 4000
+  jest:
+    rootDir: tests
+
+functions:
+  - ${file(./src/primaryAdapters/api/http/httpFunctions.yml)}
+  - ${file(./src/primaryAdapters/auth/authFunctions.yml)}
+
+package:
+  # https://stackoverflow.com/questions/48497318/serverless-framework-exclude-not-needed-functions-from-package
+  # https://forum.serverless.com/t/is-this-expected-behavior-for-individually-packing-functions/330/4
+  # https://forum.serverless.com/t/how-do-you-cleanly-package-small-individual-lambda-functions/2134
+  individually: true
+  exclude:
+    - ./**
+
+plugins:
+  # https://www.npmjs.com/package/serverless-domain-manager
+  # https://serverless.com/blog/serverless-api-gateway-domain/
+  - serverless-domain-manager
+  - serverless-offline
+  - serverless-jest-plugin

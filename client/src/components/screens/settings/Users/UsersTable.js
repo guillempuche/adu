@@ -19,7 +19,7 @@ import EditUserDialog from './EditUserDialog';
 
 const styles = theme => ({
     settings: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         overflowX: 'auto'
     },
     editTableRow: {

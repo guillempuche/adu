@@ -6,7 +6,7 @@ import ROUTES from '../../utils/routes';
 import BarFrame from './navBar/BarFrame';
 import ChatUserFrame from './chat/ChatUserFrame';
 import Settings from './settings/Settings';
-import Database from './Database';
+import FaqsFrame from './faqs/FaqsFrame';
 import Error from './Error';
 
 const styles = theme => ({
@@ -28,8 +28,9 @@ const styles = theme => ({
  * @function Dashboard It has the main frames for the app for users.
  *
  * Main custom components used:
- * - `BarFrame` - Navigation bar.
- * - `ChatUserFrame`, `Settings`, `Database` - View of the chats, settings and database frames.
+ * - `BarFrame`: Navigation bar.
+ * - `ChatUserFrame`, `Settings`, `FaqsFrame`: View of the chats, settings and database frames.
+ * - `Error`: show the errors on the UI.
  */
 function Dashboard({ classes }) {
     return (
@@ -44,7 +45,7 @@ function Dashboard({ classes }) {
                         component={ChatUserFrame}
                     />
                     <Route path={ROUTES.settings.path} component={Settings} />
-                    <Route path={ROUTES.faqs.path} component={Database} />
+                    <Route path={ROUTES.faqs.path} component={FaqsFrame} />
                     {/* All other URLs will we redirected to the Chat component. */}
                     <Route path={ROUTES.app.path}>
                         <Redirect to={ROUTES.chatUser.path} />

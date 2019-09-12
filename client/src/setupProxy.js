@@ -20,7 +20,6 @@ module.exports = function(app) {
             // The snippet is used to solve ECONNREFUSED on development.
             secure: false,
             changeOrigin: true
-            //logLevel: 'debug'
         })
     );
 };

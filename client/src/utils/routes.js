@@ -10,16 +10,20 @@ const routesTitles = i18n.getResourceBundle(
  * @module ROUTES
  */
 export default {
-    landing: {
-        title: routesTitles.landing,
-        path: '/landing'
-    },
     login: {
         title: routesTitles.login,
         path: '/login' // IMPORTANT: Same pathname at server keys.
     },
+    logout: {
+        title: routesTitles.logout,
+        path: '/api/logout' // Same oathname at server authRoute.js
+    },
     auth: {
         path: '/auth' // IMPORTANT: Same pathname at server authRoute.js
+    },
+    landing: {
+        title: routesTitles.landing,
+        path: '/landing'
     },
     onboarding: {
         title: routesTitles.onboarding,
@@ -30,15 +34,22 @@ export default {
         path: `/`
     },
     faqs: {
-        title: routesTitles.faqs,
-        path: `/faqs`
+        title: routesTitles.faqs.title,
+        path: `/faqs`,
+        routes: {
+            questions: {
+                title: routesTitles.faqs.routes.questions,
+                path: `/faqs/questions`
+            },
+            answers: {
+                title: routesTitles.faqs.routes.answers,
+                path: `/faqs/answers`
+            }
+        }
     },
     settings: {
         title: routesTitles.settings,
         path: `/settings`
-    },
-    logout: {
-        path: '/api/logout' // Same oathname at server authRoute.js
     },
     chatClient: {
         path: `/au`

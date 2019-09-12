@@ -24,14 +24,14 @@ const styles = theme => ({
         alignItems: 'center',
         alignContent: 'center',
         textAlign: 'center',
-        margin: theme.spacing.unit * 6,
-        padding: theme.spacing.unit * 5
+        margin: theme.spacing(6),
+        padding: theme.spacing(5)
     },
     button: {
-        margin: theme.spacing.unit * 2
+        margin: theme.spacing(2)
     },
     iconButton: {
-        marginLeft: theme.spacing.unit * 2
+        marginLeft: theme.spacing(2)
     },
     textField: {
         [theme.breakpoints.up('sm')]: {

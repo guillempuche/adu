@@ -19,7 +19,7 @@ const styles = theme => ({
         alignItems: 'center'
     },
     icon: {
-        marginRight: theme.spacing.unit * 2
+        marginRight: theme.spacing(2)
     }
 });
 

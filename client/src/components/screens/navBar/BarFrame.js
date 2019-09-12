@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
 import { withRouter, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -84,7 +83,7 @@ class BarFrame extends Component {
      * Render the whole list.
      */
     renderList() {
-        const { classes, t } = this.props;
+        const { classes } = this.props;
         return (
             <List>
                 <ListItem
@@ -96,7 +95,7 @@ class BarFrame extends Component {
                     <ListItemIcon>
                         <MessageIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('chatList')} />
+                    <ListItemText primary={ROUTES.chatUser.title} />
                 </ListItem>
                 <ListItem
                     key="faqs"
@@ -107,7 +106,7 @@ class BarFrame extends Component {
                     <ListItemIcon>
                         <TextFieldsIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('faqs')} />
+                    <ListItemText primary={ROUTES.faqs.title} />
                 </ListItem>
                 <ListItem
                     key="settings"
@@ -118,14 +117,14 @@ class BarFrame extends Component {
                     <ListItemIcon>
                         <SettingsIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('settings')} />
+                    <ListItemText primary={ROUTES.settings.title} />
                 </ListItem>
                 <a href={ROUTES.logout.path} className={classes.link}>
                     <ListItem key="logout" button>
                         <ListItemIcon>
                             <ExitToAppIcon />
                         </ListItemIcon>
-                        <ListItemText primary={t('logout')} />
+                        <ListItemText primary={ROUTES.logout.title} />
                     </ListItem>
                 </a>
             </List>
@@ -245,7 +244,6 @@ function mapStateToProps({ auth }) {
 const enhancer = compose(
     connect(mapStateToProps),
     withRouter,
-    withNamespaces('routesTitles'),
     withStyles(styles)
 );
 

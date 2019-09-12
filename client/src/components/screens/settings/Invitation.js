@@ -8,13 +8,13 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     code: {
-        marginTop: theme.spacing.unit * 2
+        marginTop: theme.spacing(2)
     },
     text: {
         ...theme.mixins.gutters(),
-        margin: theme.spacing.unit,
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2
+        margin: theme.spacing(),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2)
     }
 });
 

@@ -2,13 +2,19 @@
     "_comment": "Chat's main page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
     "landing": "Landing",
     "login": "Sesión",
+    "logout": "Cerrar Sesión",
     "onboarding": "Entrar en la facultad",
     "app": "App",
-    "faqs": "FAQs",
+    "faqs": {
+        "title": "FAQs",
+        "routes": {
+            "questions": "Preguntas",
+            "answers": "Respuestas"
+        }
+    },
     "settings": "Configuración",
-    "chatUser": "Au",
+    "chatUser": "Chats",
     "chatList": "Chats",
     "chatUserIndividual": "Chat",
-    "chatUserProfile": "Perfil",
-    "logout": "Cerrar Sesión"
+    "chatUserProfile": "Perfil"
 }

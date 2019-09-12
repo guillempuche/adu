@@ -26,13 +26,13 @@ import {
 import { createUUID } from '../utils/chat/chatUtils';
 
 export {
+    fetchAppSettings,
     fetchUser,
     editUser,
     fetchAllUsers,
     selectedUser,
     deleteSelectedUser,
     fetchRooms,
-    // fetchRoom,
     saveGlobalChannels,
     selectRoom,
     updateRoomsList,
@@ -50,11 +50,35 @@ export {
     fetchHistory,
     saveAttachedFile,
     deleteAllAttachedFiles,
+    fetchAllQuestions,
+    saveQuestions,
+    setError,
     setChatFatalError,
     setChatErrorGeneral,
     setChatStatus,
     setChatStatusFetching,
     handleComponentProfileDialog
+};
+
+/**
+ * Get user's data and save it.
+ */
+const fetchAppSettings = () => async dispatch => {
+    try {
+        const settings = await axios.get('/api/settings');
+
+        dispatch({
+            type: types.APP_SETTINGS_FETCH,
+            payload: settings.data
+        });
+    } catch (err) {
+        console.error(err);
+
+        dispatch({
+            type: types.ERROR,
+            payload: `Problem fetching the app's settings`
+        });
+    }
 };
 
 /**
@@ -195,26 +219,6 @@ const fetchRooms = () => async (dispatch, getState) => {
         });
     }
 };
-
-// /**
-//  * Get a room & save it to the Redux Store.
-//  * @param {string} roomId
-//  */
-// const fetchRoom = roomId => async dispatch => {
-//     try {
-//         const room = await axios.get(`/api/rooms/${roomId}`);
-
-//         dispatch({
-//             type: types.CHAT_ROOMS_ROOM_FETCH,
-//             payload: room.data
-//         });
-//     } catch (err) {
-//         dispatch({
-//             type: types.ERROR,
-//             payload: 'Occurred an error while fetching a chat room'
-//         });
-//     }
-// };
 
 /**
  * Save to Redux Store one or multiple global channels.
@@ -379,8 +383,6 @@ const updateRoomsList = (roomId, message) => (dispatch, getState) => {
                 });
             }
         }
-        // dispatch(fetchRoom(roomId));
-        // }
 
         resolve();
     });
@@ -723,12 +725,88 @@ const deleteAllAttachedFiles = () => dispatch => {
     });
 };
 
+const fetchAllQuestions = () => async dispatch => {
+    try {
+        const questions = await axios.get('/api/faqs/questions');
+
+        dispatch({
+            type: types.FAQS_QUESTIONS_FETCH_ALL,
+            payload: questions.data
+        });
+    } catch (err) {
+        console.error(err);
+
+        dispatch({
+            type: types.ERROR,
+            payload: `Problem getting the list of all questions of FAQs`
+        });
+    }
+};
+
+/**
+ * Save, modify or delete a set of questions on the database & Redux Store.
+ * @param {Array} questions
+ * @param {string} action Can be: `new`, `edit` or `delete`.
+ */
+const saveQuestions = (questions, action) => async dispatch => {
+    try {
+        if (action === 'new') {
+            console.log('Added rows', questions);
+            // dispatch({
+            //     type: types.FAQS_QUESTIONS_NEW,
+            //     payload: questions
+            // })
+        } else if (action === 'edit') {
+            console.log('Edited rows', questions);
+            const questionsEdited = await axios.post(
+                `/api/faqs/questions/modify?action=${action}`,
+                {
+                    questions
+                }
+            );
+
+            dispatch({
+                type: types.FAQS_QUESTIONS_EDIT,
+                payload: questionsEdited.data
+            });
+        } else if (action === 'delete') {
+            console.log('Deleted rows', questions);
+            // await axios.post(
+            //     `/api/faqs/questions/modify?action=${action}`,
+            //     questions
+            // );
+        }
+    } catch (err) {
+        console.error(err);
+
+        dispatch({
+            type: types.ERROR,
+            payload: `Problem saving the questions of the FAQs`
+        });
+    }
+};
+
+// ================================================================
+//          STATUS & ERRORS
+// ================================================================
+/**
+ * Set an error to show on the UI.
+ *
+ * @param {string} err Message.
+ */
+const setError = err => dispatch => {
+    dispatch({
+        type: types.ERROR,
+        payload: err
+    });
+};
+
 /**
  * Stop the chat app.
  *
  * @param {boolean} err If there's an error `true`.
  */
-const setChatFatalError = err => async dispatch => {
+const setChatFatalError = err => dispatch => {
     dispatch({
         type: types.ERROR_CHAT_FATAL,
         payload: err
@@ -775,9 +853,9 @@ const setChatStatusFetching = (id, value) => dispatch => {
     });
 };
 
-// ====================================
+// ================================================================
 //          COMPONENTS ACTIONS
-// ====================================
+// ================================================================
 const handleComponentProfileDialog = () => dispatch => {
     dispatch({
         type: types.COMPONENT_PROFILE_DIALOG

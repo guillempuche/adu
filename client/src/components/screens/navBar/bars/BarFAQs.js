@@ -1,25 +1,23 @@
 import React from 'react';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
-import { withNamespaces } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+
+import ROUTES from '../../../../utils/routes';
 
 const styles = theme => ({});
 
 /**
  * @function BarFAQs Render bar of the FAQs Editor.
  */
-function BarFAQs({ t }) {
+function BarFAQs({}) {
     return (
         <Typography variant="h6" color="inherit">
-            {t('faqs')}
+            {ROUTES.faqs.title}
         </Typography>
     );
 }
 
-const enhancer = compose(
-    withNamespaces(['routesTitles']),
-    withStyles(styles)
-);
+const enhancer = compose(withStyles(styles));
 
 export default enhancer(BarFAQs);
