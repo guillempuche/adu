@@ -1,0 +1,17 @@
+service: faqs
+
+provider:
+    name: aws
+    runtime: nodejs10.x
+    memory: 512
+    timeout: 10
+    stage: dev
+
+functions:
+    # Questions
+    getQuestions:
+        handler: question.getQuestions
+        description: Get all questions
+    updateQuestion:
+        handler: question.updateQuestion
+        description: Add/edit/delete a question on DB, Algolia & Recombee.

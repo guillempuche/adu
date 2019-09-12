@@ -1,0 +1,55 @@
+service: app
+
+provider:
+    name: aws
+    runtime: nodejs10.x
+    memory: 512
+    timeout: 10
+    stage: ${opt:stage, 'dev'}
+    region: us-east-1
+    environment: ${file(../../config/${opt:stage, self:provider.stage}.json)}
+
+functions:
+    app:
+        handler: index.handler
+        events:
+            #- http: ANY /
+            #- http: 'ANY {proxy+}'
+            - http:
+                  path: /
+                  method: ANY
+                  cors: true
+            - http:
+                  path: /{proxy+}
+                  method: ANY
+                  cors: true
+    # https://github.com/serverless/serverless-graphql/tree/master/app-backend/rest-api
+    # graphql:
+    #     handler: handler.graphqlHandler
+    #     events:
+    #         - http:
+    #             path: graphql
+    #             method: post
+    #             cors: true
+    #         - http:
+    #             path: graphql
+    #             method: get
+
+custom:
+    # Use the stage CLI option if it exists, if not, use the default stage (provider.stage). During production you can do: serverless deploy --stage production
+    stage: ${opt:stage, self:provider.stage}
+    domains:
+        prod: api.guillemau.com
+        dev: dev-api.guillemau.com
+    customDomain:
+        domainName: ${self:custom.domains.${self:provider.stage}}
+        basePath: ''
+        stage: ${self:provider.stage}
+        certificateName: '*.guillemau.com'
+        createRoute53Record: true
+
+plugins:
+    - serverless-offline
+    # https://www.npmjs.com/package/serverless-domain-manager
+    # https://serverless.com/blog/serverless-api-gateway-domain/
+    - serverless-domain-manager

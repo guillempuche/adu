@@ -8,5 +8,5 @@ logs
 stackify-debug.log
 
 # Effects of the refactoring
-tests/secondaryAdapters/db/mongoserver/*
-backend
+tests/secondaryAdapters/db/mongoserver/**
+backend/config/**
