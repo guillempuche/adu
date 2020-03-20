@@ -1,0 +1,25 @@
+# prettier-ignore
+authTrusted:
+  handler: src/secondaryAdapters/auth/authFunctions.trusted
+  package:
+    include:
+      - src/secondaryAdapters/auth/authFunctions.js
+auth:
+  handler: src/secondaryAdapters/auth/authFunctions.authenticated
+  # cors: true
+  # environment:
+  #   AUTH0_CLIENT_PUBLIC_KEY: ${file(./src/config/auth0ClientPublicKey-${opt:stage, self:provider.stage}.pem)}
+  package:
+    include:
+      - src/secondaryAdapters/auth/authFunctions.js
+authAdmins:
+  handler: src/secondaryAdapters/auth/authFunctions.authenticatedAdmins
+  package:
+    include:
+      - src/secondaryAdapters/auth/authFunctions.js
+unauth:
+  handler: src/secondaryAdapters/auth/authFunctions.unauthenticated
+  # cors: true
+  package:
+    include:
+      - src/secondaryAdapters/auth/authFunctions.js

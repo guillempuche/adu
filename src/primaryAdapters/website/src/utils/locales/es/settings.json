@@ -1,0 +1,17 @@
+{
+	"_comment": "Settings page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+	"text": {
+		"title-onboarding": "🆕 Código para invitar un nuevo usuario a la facultad",
+		"content-onboarding": "Entra en el Asistente Universitario 🤖 de tu Facultad con el código que tus compañeros tienen en el pantalla: CONFIGURACIÓN --> INVITAR USUARIO",
+		"content-title-faculty": "Facultad",
+		"content-code-faculty": "Código"
+	},
+	"invitations": {
+		"title": "Invita a un compañero para usar el Au. Le enviaremos la invitación a su email ✉.",
+		"textfield-email": "Email de Trabajo",
+		"placeholder-email": "Ej: nombre@universidad.edu",
+		"button-send": "Enviar",
+		"text-status-sent": "Enviada 🎉",
+		"text-status-error": "Error al enviar 🙁. Contactar con Guillem Puche"
+	}
+}

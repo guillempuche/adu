@@ -1,0 +1,16 @@
+{
+    "_comment": "Chat's main page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "list": {
+        "loader": "Cargando chats...",
+        "text-select-chat": "Selecciona un chat 💬"
+    },
+    "item": {
+        "name": "Chat",
+        "message-sender-client": "Visitante",
+        "message-sender-faculty": "Facultad",
+        "message-sender-user": "Usuario",
+        "message-image": "Imagen",
+        "message-file": "Archivo",
+        "message-template-email": "Formulario Email"
+    }
+}

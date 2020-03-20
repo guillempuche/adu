@@ -1,0 +1,14 @@
+# prettier-ignore
+graphql:
+  handler: src/primaryAdapters/api/http/graphql/handler.graphql
+  package:
+    include:
+      - src/primaryAdapters/api/http/graphql/**
+  events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+    - http:
+        path: graphql
+        method: get

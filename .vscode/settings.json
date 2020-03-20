@@ -1,0 +1,19 @@
+// Sample on: https://github.com/Microsoft/vscode/blob/master/.vscode/settings.json
+{
+	"search.exclude": {
+		"**/node_modules": true
+	},
+	// "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	// Eslint extension. More: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+	"eslint.enable": true,
+	"eslint.run": "onType",
+	"eslint.alwaysShowStatus": true,
+	"files.autoSave": "off", // Needed for eslint autoFixOnSave
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	}
+}

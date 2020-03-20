@@ -1,0 +1,97 @@
+{
+    "_comment": "Chat's main page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "attach": {
+        "send": "{{count}} archivo adjuntado",
+        "send_plural": "{{count}} archivos adjuntados",
+        "error": "No se puede eliminar",
+        "cloudinary": {
+            "queue": {
+                "title": "Cola de Subida",
+                "title_uploading_with_counter": "Subiendo {{num}} Archivos",
+                "title_uploading": "Subiendo Archivos",
+                "mini_title": "Subido",
+                "mini_title_uploading": "Subiendo",
+                "show_completed": "Visualización terminada",
+                "retry_failed": "Reintento fallido",
+                "abort_all": "Abortar todo",
+                "upload_more": "Subir más",
+                "done": "Hecho",
+                "mini_upload_count": "{{num}} subidos",
+                "mini_failed": "{{num}} fallados",
+                "statuses": {
+                    "uploading": "Subiendo...",
+                    "error": "Error",
+                    "uploaded": "Enviar",
+                    "aborted": "Abortado"
+                }
+            },
+            "or": "O",
+            "back": "Atrás",
+            "advanced": "Avanzado",
+            "close": "Cerrar",
+            "no_results": "Sin resultados",
+            "search_placeholder": "Buscar archivos",
+            "about_uw": "Sobre el Widget",
+            "menu": {
+                "files": "Mis Archivos",
+                "web": "Dirección Web",
+                "gsearch": "Búsqueda de Imágenes"
+            },
+            "selection_counter": {
+                "selected": "Seleccionado"
+            },
+            "actions": {
+                "upload": "Subir",
+                "clear_all": "Limpiar todo",
+                "log_out": "Cerrar sesión"
+            },
+            "notifications": {
+                "general_error": "Ha ocurrido un error.",
+                "general_prompt": "¿Estás seguro?",
+                "limit_reached": "No se pueden seleccionar más archivos.",
+                "invalid_add_url": "The URL must be valid.",
+                "invalid_public_id": "Public ID cannot contain \\,?,&,#,%,<,>.",
+                "no_new_files": "The files have already been uploaded."
+            },
+            "image_search": {
+                "main_title": "Image Search",
+                "inputPlaceholder": "Search for images",
+                "customPlaceholder": "Search {{site}}",
+                "show_options": "Show Options",
+                "hide_options": "Hide Options",
+                "filters_title": "Site",
+                "all": "all",
+                "rights": "Usage rights:",
+                "rights_options": {
+                    "not_filtered": "not filtered by licence",
+                    "free": "free to use or share",
+                    "free_com": "free to use or share, even commercially",
+                    "free_mod": "free to use share or modify",
+                    "free_mod_com": "free to use, share or modify, even commercially"
+                },
+                "search_error": "Search failed, please try again."
+            },
+            "local": {
+                "browse": "Examinar",
+                "main_title": "Subir Archivos",
+                "dd_title_single": "Arrastrar y Soltar un archivo aquí",
+                "dd_title_multi": "Arrastrar y Soltar archivos aquí",
+                "drop_title_single": "Soltar un archivo para subirlo",
+                "drop_title_multiple": "Soltar archivos para subirlos"
+            },
+            "url": {
+                "main_title": "URL remota",
+                "inner_title": "URL pública del archivo para subir:",
+                "input_placeholder": "http://remote.site.example/images/remote-image.jpg"
+            },
+            "uploader": {
+                "errors": {
+                    "file_too_large": "El tamaño del archivo ({{size}}) excede el máximo permitido ({{allowed}})",
+                    "max_dimensions_validation": "Las dimensiones de la imagen ({{width}}X{{height}}) son mayores que el máximo permitido: ({{maxWidth}}X{{maxHeight}})",
+                    "min_dimensions_validation": "Las dimensiones de la imagen ({{width}}X{{height}}) son más pequeñas que el mínimo requerido: ({{minWidth}}X{{minHeight}})",
+                    "unavailable": "No disponible"
+                }
+            }
+        }
+    }
+}

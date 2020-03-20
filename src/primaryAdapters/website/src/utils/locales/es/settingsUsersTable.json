@@ -1,0 +1,42 @@
+{
+    "_comment": "Users tables for Settings page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "table-header-column": {
+        "_comment": "IMPORTANT: These fields have effect on UsersTable component and his children components.",
+        "name": "Nombre",
+        "university": "Universidad",
+        "faculties": "Facultad",
+        "emails": "Correos",
+        "role": "Rol",
+        "permissions": "Permisos",
+        "actions": "Acciones"
+    },
+    "table-body": {
+        "cell-unknown": "-"
+    },
+    "form-validation": {
+        "name": "Escribir el nombre y el apellido sin espacios al final"
+    },
+    "button": {
+        "add": "Añadir",
+        "edit": "Editar",
+        "tooltip-add": "Añadir un nuevo usuario",
+        "tooltip-edit": "Editar este usuario"
+    },
+    "dialog-edit": {
+        "title": "Editar Usuario",
+        "button-cancel": "Cancelar",
+        "button-save": "Guardar",
+        "button-tooltip-cancel": "Cancelar edición",
+        "button-tooltip-save": "Guardar los cambios",
+        "title-email": "(OPCIONAL) Escribe otro correo para redireccionar los avisos del producto AU. No será utilizado para notificaciones del chat.",
+        "textfield-name": "Nombre y Apellido",
+        "textfield-email": "Correo (opcional)",
+        "textfield-role": "Rol en Tu Trabajo",
+        "textfield-email-default": "Correo Principal",
+        "textfield-tooltip-email-default": "Email no modificable. Obtenido durante el registro de la cuenta",
+        "textfield-tooltip-role": "Función que ejerces en la universidad. Se mostrará públicamente en el chat",
+        "textfield-placeholder-name": "ej: Guillem Puche",
+        "textfield-placeholder-email": "ej: guillempuche@universidad.edu",
+        "textfield-placeholder-role": "ej: Responsable de grados"
+    }
+}

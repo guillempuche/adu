@@ -1,12 +1,18 @@
 node_modules
-.vscode
+ngrok.yml
 
 # dev is the development folder
 dev
 
-logs
-stackify-debug.log
+# Environment variables
+.env
+src/config/env-dev.json
+auth0ClientPublicKey-dev.pem
 
 # Effects of the refactoring
 tests/secondaryAdapters/db/mongoserver/**
 backend/config/**
+.eslintcache
+
+# test
+tests/coverage

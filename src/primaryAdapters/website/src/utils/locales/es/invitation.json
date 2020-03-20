@@ -1,0 +1,6 @@
+{
+    "_comment": "Settings page. How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+    "loading": "Validando la invitación",
+    "error": "Invitación inválida 😕. Recuerda que solo es válida durante unas horas. Pide que te inviten otra vez.",
+    "valid": "Registrate"
+}

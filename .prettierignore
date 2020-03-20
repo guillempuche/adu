@@ -1,0 +1,7 @@
+node_modules
+tests/coverage
+src/primaryAdapters/website/node_modules
+
+client
+backend
+dev

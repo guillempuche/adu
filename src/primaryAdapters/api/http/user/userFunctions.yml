@@ -1,0 +1,72 @@
+# prettier-ignore
+public:
+  handler: src/primaryAdapters/api/http/user/http.public
+  package:
+    include:
+      - src/primaryAdapters/api/http/user/**
+  events:
+    - http:
+        path: public
+        method: get
+        cors: true
+privateAdmins:
+  handler: src/primaryAdapters/api/http/user/http.privateAdmins
+  package:
+    include:
+      - src/primaryAdapters/api/http/user/**
+  events:
+    - http:
+        path: privateAdmins
+        method: get
+        cors: true
+        authorizer: authAdmins
+private:
+  handler: src/primaryAdapters/api/http/user/http.private
+  package:
+    include:
+      - src/primaryAdapters/api/http/user/**
+  events:
+    - http:
+        path: private
+        method: get
+        cors: true
+        # authorizer: unauth
+        # authorizer: authAgent
+        authorizer: auth
+        # cors:
+        #   origins:
+        #     - '*'
+        #   headers:
+        #     - Content-Type
+        #     - X-Amz-Date
+        #     - Authorization
+        #     - X-Api-Key
+        #     - X-Amz-Security-Token
+guest:
+  handler: src/primaryAdapters/api/http/user/http.guest
+  package:
+    include:
+      - src/primaryAdapters/api/http/user/**
+  events:
+    - http:
+        path: guest
+        method: get
+        cors: true
+        # authorizer: unauthenticated
+        # authorizer:
+          # type: aws_iam
+createUser:
+  handler: src/primaryAdapters/api/http/user/http.createUser
+  package:
+    include:
+      - src/primaryAdapters/api/http/user/**
+  events:
+    - http:
+        path: user/create
+        method: post
+        cors: true
+        # authorizer: auth
+        authorizer:
+          name: authTrusted
+          type: request
+          identitySource: method.request.header.Host

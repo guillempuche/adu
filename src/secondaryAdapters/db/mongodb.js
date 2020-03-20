@@ -1,19 +1,24 @@
 'use strict';
 
-const mongodb = require('mongodb');
-const { MongoClient, ObjectID } = mongodb;
+const { MongoClient } = require('mongodb');
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true
-});
+const client =
+	process.env.IS_TESTING === 'true'
+		? global.__MONGOCLIENT__
+		: new MongoClient(process.env.MONGODB_URI, {
+				useNewUrlParser: true
+		  });
 
 const mongodbInit = async () => {
-    if (client.isConnected() === false) await client.connect();
+	if (client.isConnected() === false) await client.connect();
 
-    return client.db(process.env.MONGODB_DB_NAME);
+	const DB_NAME =
+		process.env.IS_TESTING === 'true'
+			? global.__MONGODB_DB_NAME__
+			: process.env.MONGODB_DB_NAME;
+	return client.db(DB_NAME);
 };
 
 module.exports = {
-    mongodbInit,
-    createObjectId: _id => new ObjectID(_id)
+	mongodbInit
 };

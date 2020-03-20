@@ -1,23 +1,22 @@
 'use strict';
 
-const _ = require('lodash');
+const makeGetUser = require('./portUserGet');
 const makeAddUser = require('./portUserAdd');
 const makeUpdateUser = require('./portUserUpdate');
-const makeAddUserFaculty = require('./portUserAddFaculty');
-const makeListAllUsersFromFaculty = require('./portUsersListFromFaculty');
 const { usersDb } = require('../../secondaryAdapters/db');
+const _ = require('lodash');
 
-const userIsEqual = (userA, userB) => _.isEqual(userA, userB);
-const cloneUser = userToClone => _.cloneDeep(userToClone);
-
+const getUser = makeGetUser({ usersDb });
 const addUser = makeAddUser({ usersDb });
-const updateUser = makeUpdateUser({ usersDb, userIsEqual });
-const addUserFaculty = makeAddUserFaculty({ usersDb, cloneUser });
-const listAllUsersFromFaculty = makeListAllUsersFromFaculty({ usersDb });
+const updateUser = makeUpdateUser({
+	usersDb,
+	isEqual: _.isEqual,
+	cloneDeep: _.cloneDeep,
+	merge: _.merge
+});
 
 module.exports = {
-    addUser,
-    updateUser,
-    addUserFaculty,
-    listAllUsersFromFaculty
+	getUser,
+	addUser,
+	updateUser
 };

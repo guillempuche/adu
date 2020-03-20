@@ -1,45 +1,48 @@
-const makeUsersDb = require('../../../src/secondaryAdapters/db/usersDb');
-const { startDb, clearDb } = require('./localDb');
-const makeFakeUser = require('../../utils/faker/user');
-const $ = require('mongo-dot-notation');
+'use strict';
 
-describe('usersDb', () => {
-    let usersDb, user;
+const { usersDb } = require('../../../src/secondaryAdapters/db');
+const { clearDb } = require('./localDb');
+const { buildFakeUser } = require('../../utils/faker');
 
-    beforeAll(async () => {
-        usersDb = makeUsersDb({ makeDb: startDb });
-    });
+describe('sa:db:usersDb', () => {
+	let user;
 
-    afterEach(async () => {
-        //await clearDb();
-    });
+	beforeEach(async () => {
+		user = buildFakeUser();
+		await usersDb.insertOne(user);
+	});
 
-    it('should insert one user', async () => {
-        user = makeFakeUser();
-        const userInserted = await usersDb.insertOne(user);
+	afterAll(async () => {
+		await clearDb();
+	});
 
-        expect(userInserted).toEqual(user);
-    });
+	it('should insert one user', async () => {
+		user = buildFakeUser();
+		const userInserted = await usersDb.insertOne(user);
+		expect(userInserted).toEqual(user);
+	});
 
-    it('should find a user by id', async () => {
-        user = makeFakeUser();
-        await usersDb.insertOne(user);
+	it('should find one user by id', async () => {
+		let userFound = await usersDb.findById(user._id);
+		expect(userFound).toEqual(user);
 
-        const userFound = await usersDb.findById(user._id);
-        expect(user).toEqual(userFound);
-    });
+		userFound = await usersDb.findById(user.auth0Id);
+		expect(userFound).toEqual(user);
+	});
 
-    it('should update one user', async () => {
-        usersDb = makeUsersDb({ makeDb: startDb, operator: $ });
-        user = makeFakeUser();
-        await usersDb.insertOne(user);
+	it(`shouldn't find user by id`, async () => {
+		const userFound = await usersDb.findById('1234');
+		expect(userFound).toBeNull();
+	});
 
-        const oldDisplayName = user.name.displayName;
-        user.name.displayName = 'Guillem';
-        const userUpdated = await usersDb.updateOne({ ...user });
+	it('should update one user', async () => {
+		const userUpdated = await usersDb.updateOne({
+			...user,
+			displayName: 'GPQ'
+		});
 
-        expect(user._id).toBe(userUpdated._id);
-        expect(user.roles).toBe(userUpdated.roles);
-        expect(oldDisplayName).not.toBe(userUpdated.name.displayName);
-    });
+		expect(userUpdated._id).toBe(user._id);
+		expect(userUpdated.roles).toBe(user.roles);
+		expect(userUpdated.displayName).toBe('GPQ');
+	});
 });

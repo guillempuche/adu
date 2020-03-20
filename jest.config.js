@@ -1,28 +1,22 @@
+// testPathIgnorePatterns: [
+// 	'<rootDir>/node_modules',
+// 	'<rootDir>/src/primaryAdapters/website',
+// 	'<rootDir>/backend',
+// 	'<rootDir>/client'
+// ],
 module.exports = {
-    testPathIgnorePatterns: [
-        '<rootDir>/node_modules/',
-        '<rootDir>/client/',
-        '<rootDir>/backend/'
-    ],
-    // preset: '@shelf/jest-mongodb'
-    // setupFiles: [resolve(__dirname, './jest-setup.js')],
-    // globalSetup: resolve(__dirname, './jest-setup.js'),
-    // globalSetup: '<rootDir>/jest-setup',
-    // globalTeardown: resolve(__dirname, './jest-teardown.js'),
-    // globalTeardown: '<rootDir>/jest-teardown',
-    // testEnvironment: '<rootDir>/__test__/jest-mongoV2.js',
-    // testEnvironment: resolve(__dirname, './jest-environment.js')
-    // testEnvironment: '<rootDir>/jest-environment'
-    testEnvironment: '<rootDir>/tests/mongodb-environment'
-    // testRunner: 'jest-circus/runner'
-    // setupFilesAfterEnv: ['<rootDir>/mongodb-setup']
-    // Indicates whether each individual test should be reported during the run
-    //roots: ['<rootDir>/src/__test__/']
-    // "testPathIgnorePatterns": [
-    //     "<rootDir>/node_modules/",
-    //     "<rootDir>/frontend/"
-    // ],
-    // "roots": [
-    //     "<rootDir>/src/"
-    // ]
+	testMatch: [
+		'<rootDir>/tests/**/*.test.js',
+		'!<rootDir>/src/primaryAdapters/website'
+	],
+	// testPathIgnorePatterns: ['<rootDir>/src/primaryAdapters/website'],
+	// Environment variables will be available on all tests.
+	setupFiles: ['<rootDir>/tests/runEnvVariables'],
+	testEnvironment: '<rootDir>/tests/mongodbEnvironment',
+	coverageDirectory: '<rootDir>/tests/coverage',
+	collectCoverageFrom: [
+		'<rootDir>/src/**',
+		'!<rootDir>/tests/**',
+		'!<rootDir>/src/primaryAdapters/website/**'
+	]
 };

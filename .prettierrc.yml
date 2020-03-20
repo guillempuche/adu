@@ -1,0 +1,6 @@
+useTabs: true
+tabWidth: 4
+bracketSpacing: true
+semi: true
+arrowParens: avoid
+singleQuote: true

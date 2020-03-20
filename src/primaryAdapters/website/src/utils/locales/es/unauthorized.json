@@ -1,0 +1,5 @@
+{
+	"_comment": "How the name structure is? Top-bottom component, then contextual meaning, eg: 'app-bar-icon-tooltip-settings'.",
+	"text": "No estás autorizado a acceder",
+	"buttonLogOut": "Cerrar Sesión"
+}
